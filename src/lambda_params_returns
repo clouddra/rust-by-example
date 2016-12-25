@@ -1,0 +1,48 @@
+fn apply<F>(f: F)
+    where F: Fn()
+{
+    f();
+}
+
+fn main() {
+    let x = 7;
+    let print = || println!("{}", x);
+    apply(print);
+
+    input_func();
+    output_params();
+}
+
+
+fn call_me<F: Fn()>(f: F) {
+    f();
+}
+
+fn function() {
+    println!("I'm a function");
+}
+
+fn input_func() {
+    let closure = || println!("closure");
+
+    call_me(closure);
+    call_me(function);
+}
+
+fn create_fn() -> Box<Fn()> {
+    let text = "fn".to_owned();
+    Box::new(move || println!("text {}", text))
+}
+
+fn create_fnmut() -> Box<FnMut()> {
+    let text = "FnMut".to_owned();
+    Box::new(move || println!("mut text {}", text))
+}
+
+fn output_params() {
+    let fn_plain = create_fn();
+    let mut fn_mut = create_fnmut();
+
+    fn_plain();
+    fn_mut();
+}
